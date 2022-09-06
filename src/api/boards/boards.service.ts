@@ -14,7 +14,7 @@ export class BoardsService {
    * @code writer 장성우
    * @description 게시판 작성
    *
-   * @param createBoardDto
+   * @param CreateBoardDto
    *
    * @return BoardDto
    */
@@ -37,7 +37,7 @@ export class BoardsService {
    * @description 게시판 작성
    *
    * @param id
-   * @param updateBoardDto
+   * @param UpdateBoardDto
    *
    * @returns BoardDto
    */
