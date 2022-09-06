@@ -12,13 +12,46 @@ export class BoardsService {
 
   /**
    * @code writer 장성우
-   * @description 게시판 생성 API
+   * @description 게시판 작성
    *
-   * @param
+   * @param createBoardDto
    *
-   * @return
+   * @return BoardDto
    */
-  async example() {
-    return 'Example API!';
+  async createBoard() {
+    return 'createBoard!';
+  }
+
+  /**
+   * @code writer 장성우
+   * @description 게시판 작성
+   *
+   * @param id
+   */
+  async deleteBoard() {
+    return 'deleteBoard';
+  }
+
+  /**
+   * @code writer 장성우
+   * @description 게시판 작성
+   *
+   * @param id
+   * @param updateBoardDto
+   *
+   * @returns BoardDto
+   */
+  async updateBoard() {
+    return 'updateBoard';
+  }
+
+  /**
+   * @code writer 장성우
+   * @description 게시글 리스트 조회
+   *
+   * @returns [BoardsListDto]
+   */
+  async getAllBoards() {
+    return 'getAllBoards';
   }
 }

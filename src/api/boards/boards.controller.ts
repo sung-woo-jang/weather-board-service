@@ -1,4 +1,4 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Delete, Get, Patch, Post, Put } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiOkResponse,
@@ -16,17 +16,55 @@ export class BoardsController {
 
   /**
    * @code writer 장성우
-   * @description API 설명
+   * @description 게시글 작성
    *
-   * @POST ("/example")
+   * @POST ("")
    *
-   * @returns json
+   * @returns 201 - json
    */
-  @Post('example')
+  @Post('')
   @ApiOperation(BoardsAPIDocs.ExampleOperation())
   @ApiOkResponse(CommonResponse.OkResponse())
   @ApiBadRequestResponse(CommonResponse.BadRequestException())
-  async example() {
-    return this.boardsService.example();
+  async createBoard() {
+    return this.boardsService.createBoard();
+  }
+
+  /**
+   * @code writer 장성우
+   * @description 게시글 삭제
+   *
+   * @Delete ("/1")
+   *
+   * @returns 204
+   */
+  @Delete('')
+  async deleteBoard() {
+    return this.boardsService.deleteBoard();
+  }
+
+  /**
+   * @code writer 장성우
+   * @description 게시글 수정
+   *
+   * @Patch ("/1")
+   *
+   * @returns 200 - json
+   */
+  @Patch()
+  async updateBoard() {
+    return this.boardsService.updateBoard();
+  }
+  /**
+   * @code writer 장성우
+   * @description 게시글 리스트 조회
+   *
+   * @POST ("/")
+   *
+   * @returns 200 - Array<json>
+   */
+  @Get('/')
+  getAllBoard() {
+    return this.boardsService.getAllBoards();
   }
 }
