@@ -17,6 +17,8 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
+import { ValidationPagePipe } from './../../common/pipe/validationPage.pipe';
+import { ValidationTakePipe } from './../../common/pipe/validationTake.pipe';
 import { CommonResponse } from './../../common/responses/common.response';
 import { BoardsService } from './boards.service';
 import { BoardsAPIDocs } from './docs/boards.docs';
@@ -88,8 +90,8 @@ export class BoardsController {
   @ApiOkResponse(CommonResponse.OkResponse())
   @ApiQuery({ name: 'take', type: 'number', required: true })
   @ApiQuery({ name: 'page', type: 'number', required: true })
-  @Get('/')
-  getBoardList(@Query('take') take: number, @Query('page') page: number) {
+    @Query('take', ValidationTakePipe) take: number,
+    @Query('page', ValidationPagePipe) page: number,
     return this.boardsService.getBoardList({ take, page });
   }
 }
