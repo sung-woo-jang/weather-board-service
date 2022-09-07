@@ -12,6 +12,7 @@ import { DeleteBoardDto } from './dto/delete-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
 import { BoardsEntity } from './entities/board.entity';
 import { Pagination, PaginationOptions } from './paginate';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class BoardsService {
@@ -30,10 +31,14 @@ export class BoardsService {
    */
   async createBoard(createBoardDto: CreateBoardDto) {
     const { title, description, password } = createBoardDto;
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
     const board = new BoardsBuilder()
       .setTitle(title)
       .setDescription(description)
-      .setPassword(password)
+      .setPassword(hashedPassword)
       .build();
     await this.boardsRepository.save(board);
 
@@ -52,14 +57,14 @@ export class BoardsService {
 
     if (!board) throw new NotFoundException('게시글을 찾을 수 없습니다.');
 
-    if (board.password !== password)
-      throw new ForbiddenException('비밀번호가 틀립니다.');
+    if (await bcrypt.compare(password, board.password)) {
+      const result = await this.boardsRepository.softDelete({ id });
+      if (!result.affected)
+        throw new NotFoundException('게시글 삭제 중 오류가 발생했습니다.');
 
-    const result = await this.boardsRepository.softDelete({ id });
-    if (!result.affected)
-      throw new NotFoundException('게시글 삭제 중 오류가 발생했습니다.');
-
-    return true;
+      return true;
+    }
+    throw new ForbiddenException('비밀번호가 틀립니다.');
   }
 
   /**
@@ -72,19 +77,20 @@ export class BoardsService {
    * @returns BoardDto
    */
   async updateBoard(id: number, updateBoardDto: UpdateBoardDto) {
-    const { password } = updateBoardDto;
+    const { title, description, password } = updateBoardDto;
     const board = await this.boardsRepository.findOneBy({ id });
 
     if (!board) throw new NotFoundException('게시글을 찾을 수 없습니다.');
 
-    if (board.password !== password)
-      throw new ForbiddenException('비밀번호가 틀립니다.');
+    if (await bcrypt.compare(password, board.password)) {
+      if (board.title) board.title = title;
+      if (board.description) board.description = description;
 
-    for (const key in updateBoardDto) board[key] = updateBoardDto[key];
+      await this.boardsRepository.save(board);
 
-    await this.boardsRepository.save(board);
-
-    return new BoardDto(board);
+      return new BoardDto(board);
+    }
+    throw new ForbiddenException('비밀번호가 틀립니다.');
   }
 
   /**
