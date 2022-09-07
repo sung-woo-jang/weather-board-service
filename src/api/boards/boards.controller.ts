@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -74,6 +75,7 @@ export class BoardsController {
   ) {
     return this.boardsService.updateBoard(id, updateBoardDto);
   }
+
   /**
    * @code writer 장성우
    * @description 게시글 리스트 조회
@@ -83,7 +85,7 @@ export class BoardsController {
    * @returns 200 - Array<json>
    */
   @Get('/')
-  getAllBoard() {
-    return this.boardsService.getAllBoards();
+  getBoardList(@Query('take') take: number, @Query('page') page: number) {
+    return this.boardsService.getBoardList({ take, page });
   }
 }

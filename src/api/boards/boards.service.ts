@@ -10,6 +10,7 @@ import { CreateBoardDto } from './dto/create-board.dto';
 import { DeleteBoardDto } from './dto/delete-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
 import { BoardsEntity } from './entities/board.entity';
+import { Pagination, PaginationOptions } from './paginate';
 
 @Injectable()
 export class BoardsService {
@@ -86,7 +87,19 @@ export class BoardsService {
    *
    * @returns [BoardsListDto]
    */
-  async getAllBoards() {
-    return await this.boardsRepository.find();
+  async getBoardList(options: PaginationOptions) {
+    const { take, page } = options;
+    const [results, total] = await this.boardsRepository.findAndCount({
+      select: ['id', 'title', 'description', 'createAt'],
+      take,
+      skip: take * (page - 1),
+      order: { createAt: 'ASC' },
+    });
+
+    // return new Pagination<BoardsArrayDto>({
+    return new Pagination({
+      results,
+      total,
+    });
   }
 }
