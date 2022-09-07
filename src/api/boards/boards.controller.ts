@@ -78,7 +78,7 @@ export class BoardsController {
    * @returns 200 - json
    */
   @ApiOperation(BoardsAPIDocs.updateBoardOperation())
-  @ApiNoContentResponse(CommonResponse.NoContentResponse())
+  @ApiOkResponse(BoardsAPIDocs.updateBoardOkResponse())
   @ApiBadRequestResponse(CommonResponse.BadRequestException())
   @Patch('/:id')
   async updateBoard(

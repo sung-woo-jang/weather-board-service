@@ -41,4 +41,8 @@ export class BoardsAPIDocs {
       description: '게시판에 글을 조회합니다.',
     };
   }
+
+  static updateBoardOkResponse() {
+    return { description: 'OK', type: createResponseDto(BoardDto) };
+  }
 }
