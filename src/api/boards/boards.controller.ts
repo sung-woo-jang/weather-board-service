@@ -20,6 +20,7 @@ import { BoardsService } from './boards.service';
 import { BoardsAPIDocs } from './docs/boards.docs';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { DeleteBoardDto } from './dto/delete-board.dto';
+import { UpdateBoardDto } from './dto/update-board.dto';
 
 @ApiTags('게시판')
 @Controller('boards')
@@ -66,9 +67,12 @@ export class BoardsController {
    *
    * @returns 200 - json
    */
-  @Patch()
-  async updateBoard() {
-    return this.boardsService.updateBoard();
+  @Patch('/:id')
+  async updateBoard(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateBoardDto: UpdateBoardDto,
+  ) {
+    return this.boardsService.updateBoard(id, updateBoardDto);
   }
   /**
    * @code writer 장성우

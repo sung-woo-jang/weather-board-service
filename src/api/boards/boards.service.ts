@@ -8,6 +8,7 @@ import { Repository } from 'typeorm';
 import { BoardDto } from './dto/board.dto';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { DeleteBoardDto } from './dto/delete-board.dto';
+import { UpdateBoardDto } from './dto/update-board.dto';
 import { BoardsEntity } from './entities/board.entity';
 
 @Injectable()
@@ -63,8 +64,20 @@ export class BoardsService {
    *
    * @returns BoardDto
    */
-  async updateBoard() {
-    return 'updateBoard';
+  async updateBoard(id: number, updateBoardDto: UpdateBoardDto) {
+    const { password } = updateBoardDto;
+    const board = await this.boardsRepository.findOneBy({ id });
+
+    if (!board) throw new NotFoundException('게시글을 찾을 수 없습니다.');
+
+    if (board.password !== password)
+      throw new ForbiddenException('비밀번호가 틀립니다.');
+
+    for (const key in updateBoardDto) board[key] = updateBoardDto[key];
+
+    await board.save();
+
+    return board;
   }
 
   /**
