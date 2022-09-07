@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Param,
   ParseIntPipe,
   Patch,
@@ -12,6 +13,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiNoContentResponse,
   ApiOkResponse,
   ApiOperation,
   ApiQuery,
@@ -56,6 +58,10 @@ export class BoardsController {
    * @returns 204
    */
   @Delete('/:id')
+  @HttpCode(204)
+  @ApiOperation(BoardsAPIDocs.deleteBoardOperation())
+  @ApiNoContentResponse(CommonResponse.NoContentResponse())
+  @ApiBadRequestResponse(CommonResponse.BadRequestException())
   async deleteBoard(
     @Param('id', ParseIntPipe) id: number,
     @Body() deleteBoardDto: DeleteBoardDto,
@@ -71,6 +77,9 @@ export class BoardsController {
    *
    * @returns 200 - json
    */
+  @ApiOperation(BoardsAPIDocs.updateBoardOperation())
+  @ApiNoContentResponse(CommonResponse.NoContentResponse())
+  @ApiBadRequestResponse(CommonResponse.BadRequestException())
   @Patch('/:id')
   async updateBoard(
     @Param('id', ParseIntPipe) id: number,
@@ -87,11 +96,24 @@ export class BoardsController {
    *
    * @returns 200 - Array<json>
    */
+  @ApiQuery({
+    name: 'take',
+    type: 'number',
+    description: '1~20개의 범위를 설정할 수 있습니다.',
+    required: true,
+  })
+  @ApiQuery({
+    name: 'page',
+    type: 'number',
+    required: true,
+  })
+  @Get('/')
   @ApiOkResponse(CommonResponse.OkResponse())
-  @ApiQuery({ name: 'take', type: 'number', required: true })
-  @ApiQuery({ name: 'page', type: 'number', required: true })
+  @ApiOperation(BoardsAPIDocs.getBoardListOperation())
+  getBoardList(
     @Query('take', ValidationTakePipe) take: number,
     @Query('page', ValidationPagePipe) page: number,
+  ) {
     return this.boardsService.getBoardList({ take, page });
   }
 }
