@@ -4,6 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { BoardsBuilder } from './../../builder/boards/board.builder';
 import { Repository } from 'typeorm';
 import { BoardDto } from './dto/board.dto';
 import { CreateBoardDto } from './dto/create-board.dto';
@@ -28,10 +29,15 @@ export class BoardsService {
    * @return BoardDto
    */
   async createBoard(createBoardDto: CreateBoardDto) {
-    const board = this.boardsRepository.create(createBoardDto);
-    const result = await this.boardsRepository.save(board);
+    const { title, description, password } = createBoardDto;
+    const board = new BoardsBuilder()
+      .setTitle(title)
+      .setDescription(description)
+      .setPassword(password)
+      .build();
+    await this.boardsRepository.save(board);
 
-    return new BoardDto(result);
+    return new BoardDto(board);
   }
 
   /**
@@ -51,9 +57,9 @@ export class BoardsService {
 
     const result = await this.boardsRepository.softDelete({ id });
     if (!result.affected)
-      throw new NotFoundException('게시글을 찾을 수 없습니다.');
+      throw new NotFoundException('게시글 삭제 중 오류가 발생했습니다.');
 
-    return;
+    return true;
   }
 
   /**
@@ -76,9 +82,9 @@ export class BoardsService {
 
     for (const key in updateBoardDto) board[key] = updateBoardDto[key];
 
-    await board.save();
+    await this.boardsRepository.save(board);
 
-    return board;
+    return new BoardDto(board);
   }
 
   /**
@@ -96,9 +102,10 @@ export class BoardsService {
       order: { createAt: 'ASC' },
     });
 
-    // return new Pagination<BoardsArrayDto>({
-    return new Pagination({
-      results,
+    const newResult = results.map((board) => new BoardDto(board));
+
+    return new Pagination<BoardDto>({
+      results: newResult,
       total,
     });
   }
