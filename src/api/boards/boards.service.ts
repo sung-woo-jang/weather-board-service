@@ -18,8 +18,11 @@ export class BoardsService {
    *
    * @return BoardDto
    */
-  async createBoard() {
-    return 'createBoard!';
+  async createBoard(createBoardDto: CreateBoardDto) {
+    const board = this.boardsRepository.create(createBoardDto);
+    const result = await this.boardsRepository.save(board);
+
+    return new BoardDto(result);
   }
 
   /**

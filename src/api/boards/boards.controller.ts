@@ -8,6 +8,7 @@ import {
 import { CommonResponse } from './../../common/responses/common.response';
 import { BoardsService } from './boards.service';
 import { BoardsAPIDocs } from './docs/boards.docs';
+import { CreateBoardDto } from './dto/create-board.dto';
 
 @ApiTags('게시판')
 @Controller('boards')
@@ -26,8 +27,8 @@ export class BoardsController {
   @ApiOperation(BoardsAPIDocs.ExampleOperation())
   @ApiOkResponse(CommonResponse.OkResponse())
   @ApiBadRequestResponse(CommonResponse.BadRequestException())
-  async createBoard() {
-    return this.boardsService.createBoard();
+  async createBoard(@Body() createBoardDto: CreateBoardDto) {
+    return this.boardsService.createBoard(createBoardDto);
   }
 
   /**
