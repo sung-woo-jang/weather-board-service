@@ -16,4 +16,33 @@ export class BoardsAPIDocs {
   static createBoardOkResponse() {
     return { description: 'OK', type: createResponseDto(BoardDto) };
   }
+
+  static deleteBoardOperation() {
+    return {
+      summary: '게시글 삭제',
+      description: '게시판의 글을 삭제합니다.',
+    };
+  }
+
+  static deleteBoardOkResponse() {
+    return { description: 'OK' };
+  }
+
+  static updateBoardOperation() {
+    return {
+      summary: '게시글 수정',
+      description: '게시판에 글을 수정합니다.',
+    };
+  }
+
+  static getBoardListOperation() {
+    return {
+      summary: '게시글 조회',
+      description: '게시판에 글을 조회합니다.',
+    };
+  }
+
+  static updateBoardOkResponse() {
+    return { description: 'OK', type: createResponseDto(BoardDto) };
+  }
 }

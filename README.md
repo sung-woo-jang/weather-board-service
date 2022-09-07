@@ -20,7 +20,7 @@
 ## 테스트 방법
 
 ```bash
-$ docker run --name local-mysql -e MYSQL_ROOT_PASSWORD=test -e TZ=Asia/Seoul -d -p 3306:3306 mysql:8
+$  docker run --name mysql-local -p 3306:3306/tcp -e MYSQL_ROOT_PASSWORD=test -d mysql:8
 ```
 
 ```bash
@@ -51,14 +51,19 @@ $ npm start:dev
 - [날씨 정보 API](https://www.weatherapi.com/)를 활용하여 게시글 작성 시 작성자의 거주 지역의 날씨 포함 예정
 - req객체의 ip값으로 위도 경도값을 구해 적용시킬 예정
 
-### 3. ERD
+## 4. ERD
 
-<img width="785" alt="스크린샷 2022-09-01 오후 10 44 18" src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FvVJUr%2FbtrLuxdGgof%2FeDW71hQ8sNjLSKlJztkzFk%2Fimg.png">
+<img width="785" alt="스크린샷 2022-09-01 오후 10 44 18" src="https://user-images.githubusercontent.com/54757435/188878080-8da00b76-36ad-4b52-af1c-27c18c14d22e.png">
 </br>
+
+## 5. Swagger
+
+- API를 테스트는 Swagger를 이용해 가능합니다.
+- URL: localhost:3000/docs
 
 # 참조문서
 
-## 📒 [노션](https://www.notion.so/4-API-9e3767fe01914b05bda9ae9a6062edf6)
+## 📒 [노션](https://www.notion.so/weather-board-service-2ebd55417dba4062aeaeb8cb71c9d0bc)
 
 ## 📒 [API 명세서](https://www.notion.so/4-API-9e3767fe01914b05bda9ae9a6062edf6)
 
