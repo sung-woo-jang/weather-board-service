@@ -63,7 +63,7 @@ $ npm start:dev
 
 # 참조문서
 
-## 📒 [노션](https://www.notion.so/weather-board-service-2ebd55417dba4062aeaeb8cb71c9d0bc)
+## 📒 [노션](https://www.notion.so/weather-board-service-2ebd55417dba4062aeaeb8cb71c9d0bc) - 아래의 내용을 한번에 보실 수 있습니다.
 
 ## 📒 [API 명세서](https://www.notion.so/4-API-9e3767fe01914b05bda9ae9a6062edf6)
 
