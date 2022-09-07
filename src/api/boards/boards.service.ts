@@ -1,6 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { BoardDto } from './dto/board.dto';
+import { CreateBoardDto } from './dto/create-board.dto';
+import { DeleteBoardDto } from './dto/delete-board.dto';
 import { BoardsEntity } from './entities/board.entity';
 
 @Injectable()
@@ -31,8 +38,20 @@ export class BoardsService {
    *
    * @param id
    */
-  async deleteBoard() {
-    return 'deleteBoard';
+  async deleteBoard(id: number, deleteBoardDto: DeleteBoardDto) {
+    const { password } = deleteBoardDto;
+    const board = await this.boardsRepository.findOneBy({ id });
+
+    if (!board) throw new NotFoundException('게시글을 찾을 수 없습니다.');
+
+    if (board.password !== password)
+      throw new ForbiddenException('비밀번호가 틀립니다.');
+
+    const result = await this.boardsRepository.softDelete({ id });
+    if (!result.affected)
+      throw new NotFoundException('게시글을 찾을 수 없습니다.');
+
+    return;
   }
 
   /**

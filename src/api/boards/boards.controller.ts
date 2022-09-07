@@ -1,4 +1,14 @@
-import { Controller, Delete, Get, Patch, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Put,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiOkResponse,
@@ -9,6 +19,7 @@ import { CommonResponse } from './../../common/responses/common.response';
 import { BoardsService } from './boards.service';
 import { BoardsAPIDocs } from './docs/boards.docs';
 import { CreateBoardDto } from './dto/create-board.dto';
+import { DeleteBoardDto } from './dto/delete-board.dto';
 
 @ApiTags('게시판')
 @Controller('boards')
@@ -39,9 +50,12 @@ export class BoardsController {
    *
    * @returns 204
    */
-  @Delete('')
-  async deleteBoard() {
-    return this.boardsService.deleteBoard();
+  @Delete('/:id')
+  async deleteBoard(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() deleteBoardDto: DeleteBoardDto,
+  ) {
+    return this.boardsService.deleteBoard(id, deleteBoardDto);
   }
 
   /**
