@@ -87,6 +87,6 @@ export class BoardsService {
    * @returns [BoardsListDto]
    */
   async getAllBoards() {
-    return 'getAllBoards';
+    return await this.boardsRepository.find();
   }
 }
