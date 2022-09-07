@@ -13,7 +13,8 @@ export class CommonResponse {
   static OkResponse() {
     return {
       description: 'Ok',
-      type: responseFormatter(BoardDto),
+      type: responseFormatter(BoardDto, true),
+      // type: BoardDto,
     };
   }
 

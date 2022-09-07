@@ -82,15 +82,15 @@ export class BoardsService {
 
     if (!board) throw new NotFoundException('게시글을 찾을 수 없습니다.');
 
-    if (await bcrypt.compare(password, board.password)) {
-      if (board.title) board.title = title;
-      if (board.description) board.description = description;
+    if (!(await bcrypt.compare(password, board.password)))
+      throw new ForbiddenException('비밀번호가 틀립니다.');
 
-      await this.boardsRepository.save(board);
+    board.setTitle(title);
+    board.setDescription(description);
 
-      return new BoardDto(board);
-    }
-    throw new ForbiddenException('비밀번호가 틀립니다.');
+    await this.boardsRepository.save(board);
+
+    return new BoardDto(board);
   }
 
   /**
