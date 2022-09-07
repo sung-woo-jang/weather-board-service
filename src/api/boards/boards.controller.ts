@@ -14,6 +14,7 @@ import {
   ApiBadRequestResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
 import { CommonResponse } from './../../common/responses/common.response';
@@ -37,8 +38,8 @@ export class BoardsController {
    * @returns 201 - json
    */
   @Post('')
-  @ApiOperation(BoardsAPIDocs.ExampleOperation())
-  @ApiOkResponse(CommonResponse.OkResponse())
+  @ApiOperation(BoardsAPIDocs.createBoardOperation())
+  @ApiOkResponse(BoardsAPIDocs.createBoardOkResponse())
   @ApiBadRequestResponse(CommonResponse.BadRequestException())
   async createBoard(@Body() createBoardDto: CreateBoardDto) {
     return this.boardsService.createBoard(createBoardDto);
@@ -84,6 +85,9 @@ export class BoardsController {
    *
    * @returns 200 - Array<json>
    */
+  @ApiOkResponse(CommonResponse.OkResponse())
+  @ApiQuery({ name: 'take', type: 'number', required: true })
+  @ApiQuery({ name: 'page', type: 'number', required: true })
   @Get('/')
   getBoardList(@Query('take') take: number, @Query('page') page: number) {
     return this.boardsService.getBoardList({ take, page });

@@ -43,4 +43,12 @@ export class BoardsEntity extends CommonEntity {
       '비밀번호는 6자 이상이어야 하고, 숫자 1개 이상 반드시 포함 되어야 합니다.',
   })
   password: string;
+
+  setTitle(title: string) {
+    this.title = title;
+  }
+
+  setDescription(description: string) {
+    this.description = description;
+  }
 }

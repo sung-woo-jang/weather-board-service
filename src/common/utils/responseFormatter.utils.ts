@@ -83,3 +83,22 @@ export function exceptionFormatter(type: object, isArray = false) {
 
   return !isArray ? ExceptionOne : ExceptionList;
 }
+
+export function createResponseDto(dto: object, isArray = false) {
+  class ResponseOne extends BaseResponse {
+    @ApiProperty({
+      type: dto,
+    })
+    data: object;
+  }
+
+  class ResponseList extends BaseResponse {
+    @ApiProperty({
+      type: dto,
+      isArray: true,
+    })
+    data: object;
+  }
+
+  return !isArray ? ResponseOne : ResponseList;
+}
