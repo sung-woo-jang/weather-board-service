@@ -1,7 +1,5 @@
 # weather-board-service API Server
 
-[회원 등급에 따른 게시판/통계 서비스](https://drive.google.com/file/d/1OyHiyNyUQCFw7oOuq50S4UZQouj7RvE2/view?usp=sharing)입니다.
-
 <div align="center">
   <img src="https://img.shields.io/badge/node-16.17.0-339933?logo=node.js"> 
   <img src="https://img.shields.io/badge/NestJS-9.0.0-E0234E?logo=NestJS"> 
@@ -63,7 +61,7 @@ $ npm start:dev
 
 # 참조문서
 
-## 📒 [노션](https://www.notion.so/weather-board-service-2ebd55417dba4062aeaeb8cb71c9d0bc)
+## 📒 [노션](https://www.notion.so/weather-board-service-2ebd55417dba4062aeaeb8cb71c9d0bc) - 아래의 내용을 한번에 보실 수 있습니다.
 
 ## 📒 [API 명세서](https://www.notion.so/4-API-9e3767fe01914b05bda9ae9a6062edf6)
 
